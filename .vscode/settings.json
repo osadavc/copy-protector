@@ -3,8 +3,13 @@
   "files.eol": "\n",
   "json.schemas": [
     {
-      "fileMatch": ["/manifest.json"],
+      "fileMatch": [
+        "/manifest.json"
+      ],
       "url": "http://json.schemastore.org/chrome-manifest"
     }
+  ],
+  "cSpell.words": [
+    "Pangea"
   ]
 }

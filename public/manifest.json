@@ -29,7 +29,7 @@
     "clipboardRead",
     "tabs",
     "activeTab",
-    "management"
+    "storage"
   ],
 
   "host_permissions": ["<all_urls>"]
