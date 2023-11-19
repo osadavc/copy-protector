@@ -1,3 +1,4 @@
+import axios from "axios";
 import getClipboard from "./utils/getClipboard";
 
 let clickedElement: EventTarget | null = null;
@@ -22,9 +23,34 @@ document.addEventListener(
   true
 );
 
-const protectedPaste = () => {
+const protectedPaste = async () => {
   const clipboardText = getClipboard();
-  (clickedElement as any).value = `${
-    (clickedElement as any).value
-  }${clipboardText}`;
+
+  await chrome.storage.sync.get(
+    {
+      apiKey: "default",
+      pangeaDomain: "default",
+    },
+    async (items) => {
+      if (items.apiKey == "default") {
+        return chrome.runtime.openOptionsPage();
+      }
+
+      const { data } = await axios.post(
+        `https://redact.${items.pangeaDomain}/v1/redact`,
+        {
+          text: clipboardText,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${items.apiKey}`,
+          },
+        }
+      );
+
+      (clickedElement as any).value = `${(clickedElement as any).value}${
+        data.result.redacted_text
+      }`;
+    }
+  );
 };
